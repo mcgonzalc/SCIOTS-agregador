@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "tsx src/server.ts",
     "build": "tsc",
-    "startA": "tsc && node dist/serverAgregador.js"
+    "start": "tsc && node dist/serverAgregador.js"
   },
   "dependencies": {
     "bigint-crypto-utils": "^3.3.0",
