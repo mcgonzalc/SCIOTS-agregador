@@ -1,10 +1,16 @@
 import Agregador, { IAgregador } from "../models/agregador.js";
+import agregadorMsg, { IAgregadorMsg } from "../models/agregadorMsg.js";
 import { energeticaPublicKey } from "../serverAgregador.js";
 
 export const createAgregador = async (agregadorData: { c: string | number | bigint }) => {
-    const agregadordata = new Agregador({ c: BigInt(agregadorData.c).toString() });
+    const encryptedData = energeticaPublicKey?.encrypt(BigInt(agregadorData.c));
+    const agregadordata = new Agregador({ c: encryptedData?.toString() });
     return await agregadordata.save();
 };
+
+export const createAgregadorMsg = async (agregadorMsgData: { c: string | number | bigint }) => {
+    
+}
 
 export const sendAgregadorData = async () => {
     if (!energeticaPublicKey) throw new Error("Energetica public key not available");
@@ -13,11 +19,10 @@ export const sendAgregadorData = async () => {
 
     const results = await Promise.all(
         agregadoresData.map(async (item) => {
-            const encrypted = energeticaPublicKey?.encrypt(BigInt(item.c));
             const response = await fetch("http://localhost:3000/data", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ c: encrypted?.toString() }),
+                body: JSON.stringify({ c: item.c }),
             });
             return response.json();
         })
