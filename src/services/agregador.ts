@@ -1,5 +1,4 @@
 import Agregador, { IAgregador } from "../models/agregador.js";
-import agregadorMsg, { IAgregadorMsg } from "../models/agregadorMsg.js";
 import { energeticaPublicKey } from "../serverAgregador.js";
 
 export const createAgregador = async (agregadorData: { c: string | number | bigint }) => {
@@ -8,9 +7,6 @@ export const createAgregador = async (agregadorData: { c: string | number | bigi
     return await agregadordata.save();
 };
 
-export const createAgregadorMsg = async (agregadorMsgData: { c: string | number | bigint }) => {
-    
-}
 
 export const sendAgregadorData = async () => {
     if (!energeticaPublicKey) throw new Error("Energetica public key not available");
