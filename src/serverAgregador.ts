@@ -12,10 +12,18 @@ const port = 3001;
 
 app.use(express.json());
 
+// Allow the externa frontend (port 3003) to call this API
+app.use((_req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5000");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  next();
+});
+
 // Consigue public key del servidor de Energetica
 const getEnergeticaPublicKey = async (): Promise<RsaPublicKey | null> => {
   try {
-    const response = await fetch("http://localhost:3000/pubKey");
+    const response = await fetch("http://localhost:4000/pubKey");
     const data = await response.json();
     return new RsaPublicKey(BigInt(data.n), BigInt(data.e));
   } catch (error) {
@@ -25,6 +33,21 @@ const getEnergeticaPublicKey = async (): Promise<RsaPublicKey | null> => {
 };
 // Obtener la clave pública de Energetica antes de conectar a la DB
 export const energeticaPublicKey = await getEnergeticaPublicKey();
+
+// Consigue public key del servidor Externa
+const getExternaPublicKey = async (): Promise<RsaPublicKey | null> => {
+  try {
+    const response = await fetch("http://localhost:3003/pubKey");
+    const data = await response.json();
+    return new RsaPublicKey(BigInt(data.n), BigInt(data.e));
+  } catch (error) {
+    console.error("Error fetching externa public key:", error);
+    return null;
+  }
+};
+
+// Obtener la clave pública de Externa antes de conectar a la DB
+export const externaPublicKey = await getExternaPublicKey();
 
 
 // Rutas Rest
