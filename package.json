@@ -7,7 +7,7 @@
   "type": "module",
   "main": "src/serverAgregador.js",
   "scripts": {
-    "dev": "tsx src/server.ts",
+    "dev": "tsx src/serverAgregador.ts",
     "build": "tsc",
     "start": "tsc && node dist/serverAgregador.js"
   },
