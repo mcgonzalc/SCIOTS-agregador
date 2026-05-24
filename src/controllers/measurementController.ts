@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { saveMeasurement, getStats } from "../services/measurementServices.js";
-import { energeticaPublicKey } from "../serverAgregador.js";
-import { blindVerify } from "rsa";
+import { energeticaPublicKey, externaPublicKey } from "../serverAgregador.js";
+import { blindVerify, signMessage } from "rsa";
 
 export const consumoSignHandler = async (req: Request, res: Response) => {
     try {
@@ -15,7 +15,8 @@ export const consumoSignHandler = async (req: Request, res: Response) => {
             res.status(400).json({ message: "Invalid signature" });
             return;
         }
-        const saved = await saveMeasurement(consumo);
+        const encrypted_measurememnt = await encryptMessage(consumo, externaPublicKey);
+        const saved = await saveMeasurement(encrypted_measurememnt);
         res.status(201).json({ message: "Consumo registrado", id: saved._id });
     } catch (error) {
         res.status(500).json({ message: "Error processing consumo", error });
