@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createAgregador, sendAgregadorData } from "../services/agregador.js";
+import { createAgregador, sendAgregadorData } from "../services/agregadorServices.js";
 
 export const createAgregadorHandler = async (req: Request, res: Response) => {
     try {

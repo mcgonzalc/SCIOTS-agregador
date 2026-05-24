@@ -1,5 +1,5 @@
 import express from "express";
-import { createAgregadorHandler,sendAgregadorDataHandler } from "../controllers/agregador.js";
+import { createAgregadorHandler,sendAgregadorDataHandler } from "../controllers/agregadorController.js";
 
 const router = express.Router();
 

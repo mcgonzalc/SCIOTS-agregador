@@ -1,7 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import agregadorRoutes from "./routes/agregador.js";
+import agregadorRoutes from "./routes/agregadorRoutes.js";
 import {publicKey,privateKey,publicKeyJson,privateKeyJson} from "./generateKeys.js";
 import { RsaPublicKey } from "rsa";
 
