@@ -1,6 +1,6 @@
 import express from "express";
-import { createAgregadorHandler, sendAgregadorDataHandler } from "../controllers/agregador.js";
 import { consumoSignHandler, getStatsHandler } from "../controllers/consumoAnonimo.js";
+import { createAgregadorHandler,sendAgregadorDataHandler } from "../controllers/agregadorController.js";
 
 const router = express.Router();
 
