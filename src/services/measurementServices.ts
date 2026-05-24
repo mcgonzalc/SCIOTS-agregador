@@ -1,12 +1,12 @@
-import ConsumoAnonimo from "../models/consumoAnonimo.js";
+import Measurement from "../models/measurement.js";
 
-export const saveConsumo = async (consumo: bigint) => {
-    const doc = new ConsumoAnonimo({ consumo: consumo.toString() });
+export const saveMeasurement = async (consumo: bigint) => {
+    const doc = new Measurement({ consumo: consumo.toString() });
     return await doc.save();
 };
 
 export const getStats = async () => {
-    const docs = await ConsumoAnonimo.find({}, "consumo");
+    const docs = await Measurement.find({}, "consumo");
     const values = docs.map(d => BigInt(d.consumo));
     if (values.length === 0) return { count: 0, mean: "0", min: "0", max: "0" };
     const sum = values.reduce((a, b) => a + b, 0n);

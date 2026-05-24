@@ -1,5 +1,5 @@
 import express from "express";
-import { consumoSignHandler, getStatsHandler } from "../controllers/consumoAnonimo.js";
+import { consumoSignHandler, getStatsHandler } from "../controllers/measurementController.js";
 import { createAgregadorHandler,sendAgregadorDataHandler } from "../controllers/agregadorController.js";
 
 const router = express.Router();

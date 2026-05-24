@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { saveConsumo, getStats } from "../services/consumoAnonimo.js";
+import { saveMeasurement, getStats } from "../services/measurementServices.js";
 import { energeticaPublicKey } from "../serverAgregador.js";
-import { verifyBlindSignature } from "../blindVerify.js";
+import { blindVerify } from "rsa";
 
 export const consumoSignHandler = async (req: Request, res: Response) => {
     try {
@@ -11,11 +11,11 @@ export const consumoSignHandler = async (req: Request, res: Response) => {
             res.status(503).json({ message: "Energetica public key not available" });
             return;
         }
-        if (!verifyBlindSignature(consumo, firma, energeticaPublicKey)) {
+        if (!blindVerify(consumo, firma, energeticaPublicKey)) {
             res.status(400).json({ message: "Invalid signature" });
             return;
         }
-        const saved = await saveConsumo(consumo);
+        const saved = await saveMeasurement(consumo);
         res.status(201).json({ message: "Consumo registrado", id: saved._id });
     } catch (error) {
         res.status(500).json({ message: "Error processing consumo", error });
