@@ -11,11 +11,15 @@ const port = 3001;
 
 app.use(express.json());
 
-// Permitir que el frontend de Externa llamar a esta API
-app.use((_req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "http://localhost:5000");
+const allowedOrigins = ["http://localhost:3000", "http://localhost:5000"];
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  if (origin && allowedOrigins.includes(origin)) {
+    res.setHeader("Access-Control-Allow-Origin", origin);
+  }
   res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  if (req.method === "OPTIONS") { res.sendStatus(204); return; }
   next();
 });
 

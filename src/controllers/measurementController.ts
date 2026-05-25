@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { saveMeasurement, getStats } from "../services/measurementServices.js";
 import { energeticaPublicKey, externaPublicKey } from "../serverAgregador.js";
-import { blindVerify, signMessage } from "rsa";
+import { blindVerify, encryptMessage } from "rsa";
 
 export const consumoSignHandler = async (req: Request, res: Response) => {
     try {
